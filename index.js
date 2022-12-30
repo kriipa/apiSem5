@@ -5,14 +5,16 @@ const mongoose = require('mongoose')
 const booksRouter = require('./routes/books_router')
 const categoryRouter = require('./routes/category_router')
 const userRouter = require('./routes/user_router')
-const auth = require('./middleware/auth')
+const profileRouter = require('./routes/profile_router')
+
+const auth = require('./middleware/auth') 
 const app = express()
 
 // connect to mongoDB
 mongoose.set('strictQuery', true)
 mongoose.connect('mongodb://127.0.0.1:27017/webAPIdb')
     .then(() => {
-        console.log('connected to MOngoDB Database')
+        console.log('conn ected to MOngoDB Database')
     }).catch((err) => console.log(err))
 
 //1. application level middleware
@@ -27,6 +29,7 @@ app.use(express.json())
 //3. router level middleware
 app.use('/users', userRouter)
 app.use(auth.verifyUser)
+app.use('/profile', profileRouter)
 app.use('/books', booksRouter)
 app.use('/categories', categoryRouter)
 

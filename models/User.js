@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
         type: String,
         enum : ['User', 'Admin'],
         default : 'User'
+    },
+    profile : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Profile'
     }
 }, {timestamps : true})
 
