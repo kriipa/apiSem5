@@ -1,11 +1,15 @@
 const express = require('express')
+const uploadImage = require('../middleware/upload')
 
 const router = express.Router()
 
 router.route('/')
     .get()
-    .post((req,res,next) => {
-        // create orofile
+    .post(uploadImage.single('profile'),
+    (req,res,next) => {
+        // create profile
+        console.log(req.file)
+        console.log(req.body)
     })
     .delete()
 
