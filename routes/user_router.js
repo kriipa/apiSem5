@@ -74,56 +74,32 @@ const jwt = require('jsonwebtoken')
 
 const User = require('../models/User')
 
-
-
 const router = express.Router()
-
-
 
 router.post('/register', (req, res, next) => {
 
     User.findOne({ username: req.body.username })
-
         .then(user => {
-
             if (user != null) {
-
                 res.status(400)
-
                 return next(new Error(`Username ${req.body.username} already exists`))
-
             }
 
             bcrypt.hash(req.body.password, 10, (err, hash) => {
-
                 if (err) next(err)
-
                 let user = new User()
-
                 user.username = req.body.username
-
                 if (req.body.role) user.role = req.body.role
-
                 user.password = hash
-
                 user.save().then(user => {
-
                     data = {
-
                         id: user._id,
-
                         username: user.username,
-
                         role: user.role
-
                     }
-
                     res.status(201).json({ status: 'User registration success.', data })
-
                 }).catch((err) => { res.status(400); next(err) })
-
             })
-
         }).catch(next)
 
 })
